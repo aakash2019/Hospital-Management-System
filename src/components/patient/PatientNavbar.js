@@ -2,16 +2,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { logoutDoctor } from '../../redux/actions/doctorActions';
 import { Button } from 'react-bootstrap';
+import { logoutPatient } from '../../redux/actions/patientActions';
 
-const DoctorNavbar = () => {
+const PatientNavbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const doctorData = useSelector(state => state.doctor.doctorData); // Get doctor data from Redux
+    const patientData = useSelector(state => state.patient.patientData); // Get doctor data from Redux
 
     const handleLogout = async () => {
-      const success = await dispatch(logoutDoctor());
+      const success = await dispatch(logoutPatient());
       if (success) {
           navigate('/');
       } else {
@@ -19,24 +19,16 @@ const DoctorNavbar = () => {
       }
     };
 
-    const goToHospital = async () => {
-      navigate('/doctor/hospital', {state: { doctorData }});
+    const goToDoctors = async () => {
+      navigate('/patient/doctors', {state: { patientData }});
     };
 
     const goToHomepage = async () => {
-      navigate('/doctor/homepage', {state: { doctorData }});
-    };
-
-    const goToPatients = async () => {
-      navigate('/doctor/patients', {state: { doctorData }});
-    };
-
-    const goToRequests = async () => {
-      navigate('/doctor/request', {state: { doctorData }});
+      navigate('/patient/homepage', {state: { patientData }});
     };
 
     const goToProfile = async () => {
-      navigate('/doctor/profile', {state: { doctorData }});
+      navigate('/patient/profile', {state: { patientData }});
     };
 
   return (
@@ -47,9 +39,7 @@ const DoctorNavbar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link onClick={ goToHomepage }>Home</Nav.Link>
-              <Nav.Link onClick={ goToHospital }>My Hospital</Nav.Link>
-              <Nav.Link onClick={ goToPatients }>Patients</Nav.Link>
-              <Nav.Link onClick={ goToRequests }>Requests</Nav.Link>
+              <Nav.Link onClick={ goToDoctors }>Doctors</Nav.Link>
               <Nav.Link onClick={ goToProfile }>Profile</Nav.Link>
             </Nav>
             <Button onClick={handleLogout} variant="outline-danger">Log Out</Button>
@@ -59,4 +49,4 @@ const DoctorNavbar = () => {
   )
 }
 
-export default DoctorNavbar;
+export default PatientNavbar;

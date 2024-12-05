@@ -2,18 +2,18 @@ import React from 'react';
 import '../styles/Homepage.css'; // Import the CSS for styling
 import { useNavigate } from 'react-router-dom';
 
-const Homepage = () => {
+const AppHomepage = () => {
     const navigate = useNavigate();
 
   return (
     <div className="homepage">
-      <h1>Welcome to the Patient Management System</h1>
+      <h1 style={{margin: '30px'}}>Welcome to the Patient Management System</h1>
       <div className="card-container">
         <div onClick={() => navigate('/admin/dashboard')} className="card admin-card">
           <h2>Admin</h2>
           <p>Manage system settings, users, and other administrative tasks.</p>
         </div>
-        <div className="card patient-card">
+        <div onClick={() => navigate('/patient/dashboard')} className="card patient-card">
           <h2>Patient</h2>
           <p>Access your medical records, book appointments, and communicate with doctors.</p>
         </div>
@@ -26,4 +26,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default AppHomepage;

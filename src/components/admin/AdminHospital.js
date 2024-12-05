@@ -25,7 +25,6 @@ const AdminHospital = () => {
 
   useEffect(() => {
     dispatch(getHospitals());
-    
   }, [dispatch]);
 
   const handleEdit = (hospitalId, hospitalName, hospitalCity) => {
@@ -78,6 +77,7 @@ const AdminHospital = () => {
   };
 
   return (
+    
     <div>
       {/* Navbar */}
       <AdminNavbar />
@@ -104,8 +104,8 @@ const AdminHospital = () => {
               </tr>
             </thead>
             <tbody>
-              {hospitals.map(hospital => (
-                <tr key={hospital._id}>
+              {hospitals.map((hospital, index) => (
+                <tr key={index}>
                   <td>{hospital.name}</td>
                   <td>{hospital.city}</td>
                   <td>

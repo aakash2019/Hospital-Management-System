@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
@@ -6,13 +7,14 @@ import DoctorNavbar from '../../components/doctor/DoctorNavbar';
 
 const DoctorHomepage = () => {
   const navigate = useNavigate();
-
+  const doctorData = useSelector(state => state.doctor.doctorData); // Get doctor data from Redux
+ 
   const goToHospital = async () => {
-    navigate('/doctor/hospital');
+    navigate('/doctor/hospital', {state: { doctorData }});
   };
 
   const goToPatients = async () => {
-    navigate('/doctor/patients');
+    navigate('/doctor/patients', {state: { doctorData }});
   };
 
   // if (!doctorData) return <p>Loading...</p>;

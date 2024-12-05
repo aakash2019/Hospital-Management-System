@@ -9,7 +9,6 @@ const DoctorLoginForm = () => {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.doctor.loading);
   const error = useSelector(state => state.doctor.error);
-  const isAuthenticated = useSelector(state => state.doctor.isAuthenticated);
 
   const navigate = useNavigate();
 
@@ -32,14 +31,6 @@ const DoctorLoginForm = () => {
       console.error('Login failed');
     }
   };
-
-  if(isAuthenticated){
-
-    return navigate('/doctor/homepage');
-  }
-
-  console.log(isAuthenticated);
-  
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">

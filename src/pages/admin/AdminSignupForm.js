@@ -2,13 +2,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signupAdmin } from '../../redux/actions/adminActions';
+import { initializeHospitals, signupAdmin } from '../../redux/actions/adminActions';
 import { Card, Form, Button } from 'react-bootstrap';
 
 const AdminSignupForm = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.admin.loading);
-  const error = useSelector(state => state.admin.error);
+  const { loading, error } = useSelector(state => state.admin);
 
   const navigate = useNavigate();
 
@@ -25,11 +24,27 @@ const AdminSignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await dispatch(signupAdmin(formData));
-    if (success) {
-      navigate('/admin/homepage');
-    } else {
-      console.error(error);
+    try {
+      // Trigger admin signup
+      const success = await dispatch(signupAdmin(formData));
+
+      if (success) {
+        // Initialize hospitals after successful signup
+        
+        const hospitalsInitialized = await dispatch(initializeHospitals());
+        console.log(hospitalsInitialized);
+        
+        if (hospitalsInitialized) {
+          console.log("Hospitals successfully initialized.");
+          navigate('/admin/homepage');
+        } else {
+          console.error("Failed to initialize hospitals.");
+        }
+      } else {
+        console.error("Signup failed.");
+      }
+    } catch (error) {
+      console.error("Error in handleSubmit:", error.message);
     }
   };
   

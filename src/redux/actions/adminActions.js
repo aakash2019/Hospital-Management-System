@@ -31,6 +31,12 @@ import {
   DELETE_HOSPITAL_REQUEST,
   DELETE_HOSPITAL_SUCCESS,
   DELETE_HOSPITAL_FAILURE,
+  SET_CURRENT_DOCTOR_REQUEST,
+  SET_CURRENT_DOCTOR_SUCCESS,
+  SET_CURRENT_DOCTOR_FAILURE,
+  ADD_INITIAL_HOSPITALS_REQUEST,
+  ADD_INITIAL_HOSPITALS_SUCCESS,
+  ADD_INITIAL_HOSPITALS_FAILURE
   
 } from '../actionTypes';
 
@@ -50,6 +56,7 @@ export const signupAdmin = (adminData) => async (dispatch) => {
   try {
     dispatch({ type: SIGNUP_ADMIN_REQUEST });
     const response = await axios.post(`${API}/api/admin/signup`, adminData);
+    
     dispatch({ type: SIGNUP_ADMIN_SUCCESS, payload: response.data });
     return true;
   } catch (error) {
@@ -57,6 +64,30 @@ export const signupAdmin = (adminData) => async (dispatch) => {
     return false;
   }
 };
+
+// POPULATE INITIAL HOSPITALS
+export const initializeHospitals = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ADD_INITIAL_HOSPITALS_REQUEST });
+
+    const token = getState().admin.token; // Retrieve token from state    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await axios.get(`${API}/api/admin/initialHospitals`, config);
+    dispatch({ type: ADD_INITIAL_HOSPITALS_SUCCESS, payload: response.data.hospitals });
+    return true; // Indicate success
+    
+  } catch (error) {
+    dispatch({ type: ADD_INITIAL_HOSPITALS_FAILURE, payload: error.message });
+    return false; // Indicate failure
+  }
+};
+
 
 // LOGIN ADMIN
 export const loginAdmin = (credentials) => async (dispatch) => {
@@ -111,6 +142,27 @@ export const getAllDoctors = () => async (dispatch, getState) => {
     dispatch({ type: GET_ALL_DOCTORS_FAILURE, payload: error.message });
     console.log(error);
     return false;
+  }
+}
+
+// SET DETAILS OF SELECTED DOCTOR
+export const setDoctor = (doctorId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: SET_CURRENT_DOCTOR_REQUEST });
+
+    const token = getState().admin.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await axios.get(`${API}/api/admin/doctor/${doctorId}`, config);
+    
+    dispatch({ type: SET_CURRENT_DOCTOR_SUCCESS, payload: response.data.doctor });
+  } catch (error) {
+    dispatch({ type: SET_CURRENT_DOCTOR_FAILURE, payload: error.message });
   }
 }
 
@@ -227,3 +279,4 @@ export const deleteHospital = (hospitalId) => async (dispatch, getState) => {
     
   }
 };
+

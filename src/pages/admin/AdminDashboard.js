@@ -8,14 +8,11 @@ import '../../styles/AdminDashboard.css';
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { adminExists, loading, error } = useSelector((state) => state.admin);
+  const { adminExists } = useSelector((state) => state.admin);
 
   useEffect(() => {
     dispatch(checkAdminExistence());
   }, [dispatch]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="admin-dashboard">

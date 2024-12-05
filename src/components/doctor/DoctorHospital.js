@@ -6,7 +6,7 @@ import { getDoctorHospitals } from '../../redux/actions/doctorActions';
 
 const DoctorHospital = () => {
   const dispatch = useDispatch();
-  const { doctorData, hospitals, loading, error } = useSelector(state => state.doctor);
+  const { doctorData, doctorHospitals, loading, error } = useSelector(state => state.doctor);
 
   useEffect(() => {
     dispatch(getDoctorHospitals(doctorData?._id));
@@ -35,7 +35,7 @@ const DoctorHospital = () => {
               </tr>
             </thead>
             <tbody>
-              {hospitals.map((hospital, index) => (
+              {doctorHospitals.map((hospital, index) => (
                 <tr key={hospital._id || index}>
                   <td>{hospital.name}</td>
                   <td>{hospital.city}</td>

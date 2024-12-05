@@ -28,14 +28,20 @@ import {
   EDIT_HOSPITAL_FAILURE,
   DELETE_HOSPITAL_REQUEST,
   DELETE_HOSPITAL_SUCCESS,
-  DELETE_HOSPITAL_FAILURE
+  DELETE_HOSPITAL_FAILURE,
+  SET_CURRENT_DOCTOR_REQUEST,
+  SET_CURRENT_DOCTOR_SUCCESS,
+  SET_CURRENT_DOCTOR_FAILURE,
+  ADD_INITIAL_HOSPITALS_REQUEST,
+  ADD_INITIAL_HOSPITALS_SUCCESS,
+  ADD_INITIAL_HOSPITALS_FAILURE
 } from '../actionTypes';
 
 const initialState = {
     isAuthenticated: false,
     adminData: null,
-    doctorData: null,
     doctors: [],
+    doctorData: [],
     hospitals: [], 
     token: null,
     adminExists: false,
@@ -48,7 +54,7 @@ const initialState = {
       
       // CHECK ADMIN IF EXISTS
       case CHECK_ADMIN_REQUEST:
-        return { ...state, loading: true };
+        return { ...state, loading: true, error: null };
       case CHECK_ADMIN_SUCCESS:
         return { ...state, loading: false, adminExists: action.payload.exists };
       case CHECK_ADMIN_FAILURE:
@@ -84,7 +90,7 @@ const initialState = {
     
     // LOGOUT ADMIN
     case LOGOUT_ADMIN_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, loading: true, error: null }
     case LOGOUT_ADMIN_SUCCESS:
       return {
         ...state,
@@ -97,9 +103,32 @@ const initialState = {
     case LOGOUT_ADMIN_FAILURE:
       return { ...state, loading:false, error: action.payload }
 
+    // ADD INITIAL HOSPITALS
+    case ADD_INITIAL_HOSPITALS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      }
+
+    case ADD_INITIAL_HOSPITALS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        hospitals: action.payload
+      }
+
+    case ADD_INITIAL_HOSPITALS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+
     // GET ALL DOCTORS
     case GET_ALL_DOCTORS_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, loading: true, error: null }
     case GET_ALL_DOCTORS_SUCCESS:
       return {
         ...state,
@@ -109,9 +138,31 @@ const initialState = {
     case GET_ALL_DOCTORS_FAILURE:
       return { ...state, loading:false, error: action.payload }
   
+    //   SET DOCTOR DETAILS
+    case SET_CURRENT_DOCTOR_REQUEST:
+      return {
+          ...state, 
+          loading: true,
+          error: null
+      }
+
+    case SET_CURRENT_DOCTOR_SUCCESS:
+        return {
+            ...state,
+            loading: false,
+            doctorData: action.payload
+        }    
+
+    case SET_CURRENT_DOCTOR_FAILURE:
+        return {
+            ...state,
+            loading: false,
+            error: action.payload
+        }
+
     // ADD DOCTOR TO HOSPITAL
     case ADD_DOCTOR_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, loading: true, error: null }
     case ADD_DOCTOR_SUCCESS:
       return {
         ...state, loading: false
